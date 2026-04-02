@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>404 — Not Found</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌨️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --peach: #F0C8A8; --dark: #3A3530; --amber: #FFB300;
+      --amber2: #FF8C00; --crt-bg: #0C0900;
+      --pixel: 'Press Start 2P', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--peach); min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-family: var(--pixel); padding: 2rem; gap: 2rem;
+    }
+
+    .computer-wrap { width: min(480px, 90vw); animation: float 5s ease-in-out infinite; }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    .monitor {
+      background: linear-gradient(145deg, #EDE4D8, #CFC0AE);
+      border-radius: 28px 28px 18px 18px; padding: 16px 16px 24px;
+      box-shadow: 5px 5px 0 #B0A090, 10px 10px 0 #9A8878,
+        inset -3px -3px 8px rgba(0,0,0,0.18),
+        inset 2px 2px 6px rgba(255,255,255,0.5),
+        0 30px 80px rgba(40,25,10,0.4);
+    }
+    .screen-bezel {
+      background: #16100A; border-radius: 12px; padding: 7px;
+      box-shadow: inset 0 0 25px rgba(0,0,0,0.95);
+    }
+    .screen {
+      background: var(--crt-bg); border-radius: 8px;
+      min-height: 220px; position: relative; overflow: hidden;
+      padding: 1.4rem 1.6rem;
+    }
+    .screen::after {
+      content: ''; position: absolute; inset: 0; border-radius: 8px;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.2) 2px, rgba(0,0,0,0.2) 4px);
+      pointer-events: none; z-index: 10;
+    }
+    .scan-line {
+      position: absolute; left: 0; right: 0; height: 3px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.18), transparent);
+      z-index: 15; pointer-events: none;
+      animation: scanSweep 3s linear infinite;
+    }
+    @keyframes scanSweep { 0% { top: -4px; } 100% { top: 100%; } }
+
+    .crt-content { position: relative; z-index: 6; }
+    .crt-error {
+      font-size: clamp(1.5rem, 5vw, 2.5rem); color: var(--amber);
+      letter-spacing: 0.05em; margin-bottom: 0.8rem;
+      text-shadow: 0 0 20px rgba(255,179,0,0.5);
+      animation: glitch 4s infinite;
+    }
+    @keyframes glitch {
+      0%,95%,100% { text-shadow: 0 0 20px rgba(255,179,0,0.5); transform: none; }
+      96% { text-shadow: -3px 0 red, 3px 0 cyan; transform: skewX(-2deg); }
+      97% { text-shadow: 3px 0 red, -3px 0 cyan; transform: skewX(2deg); }
+      98% { text-shadow: 0 0 20px rgba(255,179,0,0.5); transform: none; }
+    }
+    .crt-msg {
+      font-size: 0.5rem; color: var(--amber); opacity: 0.8;
+      line-height: 2.2; margin-bottom: 1rem;
+    }
+    .crt-prompt { font-size: 0.42rem; color: var(--amber); display: flex; align-items: center; gap: 0.2rem; }
+    .crt-cursor {
+      display: inline-block; width: 0.55em; height: 0.9em;
+      background: var(--amber); animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .monitor-stand {
+      width: 46%; margin: 0 auto; height: 12px;
+      background: linear-gradient(to bottom, #BEB0A0, #A89880);
+      border-radius: 0 0 4px 4px; box-shadow: 3px 3px 0 #9A8870;
+    }
+    .monitor-base {
+      width: 65%; margin: 0 auto; height: 8px;
+      background: linear-gradient(to bottom, #C8BBAA, #B0A090);
+      border-radius: 0 0 6px 6px; box-shadow: 3px 3px 0 #9A8870;
+    }
+    .keyboard {
+      background: linear-gradient(145deg, #D8CCBE, #C2B4A4);
+      border-radius: 5px 5px 8px 8px; padding: 6px 8px 10px; margin-top: 3px;
+      box-shadow: 3px 3px 0 #A89880, 5px 5px 0 #9A8870;
+      display: grid; grid-template-columns: repeat(12,1fr); gap: 2px;
+    }
+    .key {
+      height: 10px; background: linear-gradient(145deg,#4A4540,#3A3530);
+      border-radius: 2px; box-shadow: 0 2px 0 #1A1510;
+    }
+    .key.sp { grid-column: span 5; }
+
+    .page-msg {
+      text-align: center; max-width: 400px;
+    }
+    .page-msg h1 {
+      font-size: clamp(0.7rem, 2vw, 0.9rem); color: var(--dark);
+      margin-bottom: 1rem; letter-spacing: 0.05em;
+    }
+    .page-msg p {
+      font-size: clamp(0.42rem, 1.2vw, 0.55rem); color: var(--dark);
+      opacity: 0.65; line-height: 2.3; margin-bottom: 2rem;
+    }
+    .back-btn {
+      display: inline-block; font-family: var(--pixel);
+      font-size: clamp(0.42rem, 1.2vw, 0.55rem);
+      color: var(--peach); background: var(--dark);
+      padding: 0.7rem 1.2rem; text-decoration: none;
+      letter-spacing: 0.08em; transition: background 0.2s;
+    }
+    .back-btn:hover { background: #2A2520; }
+    .back-btn::before { content: '← '; }
+  </style>
+</head>
+<body>
+
+  <div class="computer-wrap">
+    <div class="monitor">
+      <div class="screen-bezel">
+        <div class="screen">
+          <div class="scan-line"></div>
+          <div class="crt-content">
+            <div class="crt-error">404</div>
+            <p class="crt-msg">
+              ERROR: Page not found.<br>
+              The file you requested<br>
+              does not exist on this<br>
+              system.
+            </p>
+            <p class="crt-prompt">USER: ~$ <span class="crt-cursor"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="monitor-stand"></div>
+    <div class="monitor-base"></div>
+    <div class="keyboard">
+      <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+      <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+      <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+      <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+      <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+      <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+      <div class="key"></div><div class="key"></div><div class="key sp"></div>
+      <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+    </div>
+  </div>
+
+  <div class="page-msg">
+    <h1>Page not found.</h1>
+    <p>Looks like this page crashed.<br>Let's get you back to safety.</p>
+    <a href="/cv-hector/" class="back-btn">Go Home</a>
+  </div>
+
+</body>
+</html>
