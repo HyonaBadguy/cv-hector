@@ -100,7 +100,9 @@
       background: var(--boot-bg);
       z-index: 400;
       display: flex; flex-direction: column;
-      justify-content: center; padding: 4rem;
+      justify-content: center;
+      padding: 4rem 4rem 4rem 4rem;
+      padding-top: 8rem;
       opacity: 0; pointer-events: none;
       transition: opacity 0.3s ease;
     }
@@ -126,6 +128,8 @@
       overflow: hidden;
       display: flex; align-items: center; justify-content: center;
       background: var(--crt-bg);
+      perspective: 1200px;
+      perspective-origin: center center;
     }
 
     /* ── COMPUTER WRAP ─────────────────────────── */
@@ -192,13 +196,12 @@
       width: 36%; z-index: 10;
       opacity: 0; animation: crtAppear 0.8s forwards 0.4s;
     }
-    /* If photo.jpg exists it shows; fallback is gradient blob */
     .crt-photo {
       width: 100%; aspect-ratio: 0.85;
       object-fit: cover; object-position: center top;
-      filter: sepia(1) contrast(1.4) brightness(0.85) hue-rotate(-10deg) saturate(3);
+      filter: sepia(1) contrast(1.5) brightness(0.8) hue-rotate(-15deg) saturate(4);
       mix-blend-mode: screen;
-      clip-path: ellipse(44% 50% at 50% 44%);
+      border-radius: 4px;
       display: block;
     }
     .crt-photo-fallback {
@@ -867,12 +870,12 @@ function animate() {
     parallaxY = lerp(parallaxY, 0, 0.1);
   }
 
-  // Tilt: as phaseA progresses, rotate on Y axis slightly (like original)
-  const tiltY  = lerp(0, -8, phaseA);
-  const tiltX  = lerp(0,  4, phaseA);
+  // Tilt: as phaseA progresses, rotate on Y axis (like original - computer goes perspective side view)
+  const tiltY  = lerp(0, -28, phaseA);
+  const tiltX  = lerp(0,   6, phaseA);
 
   computerWrap.style.transform =
-    `scale(${scale}) rotateY(${tiltY + parallaxX * 1.5}deg) rotateX(${tiltX + parallaxY * -1}deg) translate(${parallaxX}px, ${parallaxY}px)`;
+    `scale(${scale}) rotateY(${tiltY + parallaxX * 2}deg) rotateX(${tiltX + parallaxY * -1.2}deg) translateX(${parallaxX}px) translateY(${parallaxY}px)`;
   computerWrap.style.opacity = opacity;
 
   heroSticky.style.background = lerpColor('#0C0900', '#F0C8A8', phaseA);
