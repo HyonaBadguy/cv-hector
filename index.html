@@ -100,15 +100,14 @@
       background: var(--boot-bg);
       z-index: 400;
       display: flex; flex-direction: column;
-      justify-content: center;
-      padding: 4rem 4rem 4rem 4rem;
-      padding-top: 8rem;
+      justify-content: flex-start;
+      padding: 7rem 4rem 4rem 4rem;
       opacity: 0; pointer-events: none;
       transition: opacity 0.3s ease;
     }
     #menu-overlay.open { opacity: 1; pointer-events: all; }
 
-    .menu-links { display: flex; flex-direction: column; gap: 0.8rem; }
+    .menu-links { display: flex; flex-direction: column; gap: 0.5rem; }
     .menu-links a {
       display: block;
       font-family: var(--pixel);
@@ -116,7 +115,6 @@
       color: var(--peach); text-decoration: none;
       letter-spacing: 0.04em;
       transition: opacity 0.2s, transform 0.2s;
-      transform: translateX(0);
     }
     .menu-links a:hover { opacity: 0.55; transform: translateX(12px); }
 
@@ -141,18 +139,82 @@
     }
 
     .monitor {
-      background: linear-gradient(145deg, #EDE4D8, #CFC0AE);
-      border-radius: 32px 32px 20px 20px;
-      padding: 20px 20px 28px;
+      /* Mac Classic / SE — boxy platinum, thick bezels */
+      background: linear-gradient(160deg, #ECEAE2 0%, #DEDAD0 35%, #C8C2B6 100%);
+      border-radius: 10px 10px 6px 6px;
+      padding: 30px 26px 48px 26px;
+      position: relative;
       box-shadow:
-        5px 5px 0 #B0A090, 10px 10px 0 #9A8878,
-        inset -4px -4px 10px rgba(0,0,0,0.18),
-        inset 3px 3px 8px rgba(255,255,255,0.5),
-        0 40px 100px rgba(40,25,10,0.45);
+        /* right depth face */
+        8px 2px 0 0 #B8B2A4,
+        16px 6px 0 0 #A8A295,
+        /* bottom depth face */
+        4px 8px 0 0 #C0BAB0,
+        /* ambient drop shadow */
+        18px 28px 70px rgba(20,15,5,0.55),
+        /* top highlight */
+        inset 0 2px 4px rgba(255,255,255,0.65),
+        /* bottom inner shadow */
+        inset 0 -3px 6px rgba(0,0,0,0.12);
     }
+
+    /* Screen ridge / inset groove around bezel (Mac Classic detail) */
+    .monitor::before {
+      content: '';
+      position: absolute;
+      top: 22px; left: 20px; right: 20px; bottom: 40px;
+      border-radius: 5px;
+      border: 2px solid rgba(0,0,0,0.1);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.15),
+                  0 1px 0 rgba(255,255,255,0.5);
+      pointer-events: none; z-index: 3;
+    }
+
+    /* Floppy disk slot — bottom right */
+    .monitor::after {
+      content: '';
+      position: absolute;
+      bottom: 18px; right: 30px;
+      width: 44px; height: 7px;
+      background: linear-gradient(to bottom, #8A8478, #9A9488);
+      border-radius: 2px;
+      box-shadow: inset 0 2px 3px rgba(0,0,0,0.5),
+                  0 0 0 1px rgba(0,0,0,0.2);
+    }
+
+    /* Power LED */
+    .monitor-power {
+      position: absolute;
+      bottom: 17px; left: 30px;
+      width: 9px; height: 9px;
+      background: radial-gradient(circle at 38% 35%, #A0FFA0 0%, #00CC44 60%, #007A2A 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(0,200,60,0.9), 0 0 2px rgba(0,0,0,0.4);
+      animation: powerPulse 3s ease-in-out infinite;
+    }
+    @keyframes powerPulse {
+      0%,100% { opacity: 1; box-shadow: 0 0 8px rgba(0,200,60,0.9); }
+      50%      { opacity: 0.7; box-shadow: 0 0 4px rgba(0,200,60,0.5); }
+    }
+
+    /* Apple logo subtle emboss */
+    .monitor-apple {
+      position: absolute;
+      top: 10px; left: 50%; transform: translateX(-50%);
+      font-size: 0.65rem; opacity: 0.18; letter-spacing: 0.15em;
+      font-family: var(--mono); color: #2A2520;
+      pointer-events: none;
+    }
+
     .screen-bezel {
-      background: #16100A; border-radius: 16px; padding: 8px;
-      box-shadow: inset 0 0 30px rgba(0,0,0,0.95);
+      background: #0C0800;
+      border-radius: 4px;
+      padding: 7px;
+      position: relative; z-index: 2;
+      box-shadow:
+        inset 0 0 40px rgba(0,0,0,1),
+        inset 0 2px 6px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(0,0,0,0.3);
     }
     .screen {
       background: var(--crt-bg); border-radius: 10px;
@@ -254,27 +316,52 @@
     @keyframes blink { 50% { opacity: 0; } }
 
     .monitor-stand {
-      width: 46%; margin: 0 auto; height: 14px;
-      background: linear-gradient(to bottom, #BEB0A0, #A89880);
-      border-radius: 0 0 4px 4px; box-shadow: 3px 3px 0 #9A8870;
+      width: 55%; margin: 0 auto;
+      height: 10px;
+      background: linear-gradient(to bottom, #C8C2B6, #B0AA9E);
+      border-radius: 0 0 3px 3px;
+      box-shadow: 4px 3px 0 #A8A295, 0 2px 4px rgba(0,0,0,0.2);
     }
     .monitor-base {
-      width: 65%; margin: 0 auto; height: 10px;
-      background: linear-gradient(to bottom, #C8BBAA, #B0A090);
-      border-radius: 0 0 6px 6px; box-shadow: 4px 4px 0 #9A8870;
+      width: 72%; margin: 0 auto;
+      height: 18px;
+      background: linear-gradient(145deg, #D0CAC0, #B8B2A6);
+      border-radius: 0 0 8px 8px;
+      box-shadow:
+        5px 3px 0 #A8A295,
+        10px 5px 0 #989285,
+        0 4px 10px rgba(0,0,0,0.25);
+      position: relative;
+    }
+    /* Base front strip */
+    .monitor-base::before {
+      content: '';
+      position: absolute;
+      bottom: 4px; left: 15%; right: 15%;
+      height: 3px;
+      background: rgba(0,0,0,0.08);
+      border-radius: 2px;
     }
     .keyboard {
-      background: linear-gradient(145deg, #D8CCBE, #C2B4A4);
+      background: linear-gradient(160deg, #E0DAD0, #CCCABF);
       border-radius: 6px 6px 10px 10px;
-      padding: 8px 10px 12px; margin-top: 4px;
-      box-shadow: 3px 3px 0 #A89880, 6px 6px 0 #9A8870,
-        inset 0 2px 4px rgba(255,255,255,0.35);
+      padding: 10px 12px 14px;
+      margin-top: 10px;
+      box-shadow:
+        5px 3px 0 #B8B4A8,
+        10px 6px 0 #A8A498,
+        inset 0 2px 3px rgba(255,255,255,0.4),
+        0 4px 12px rgba(0,0,0,0.2);
       display: grid; grid-template-columns: repeat(14,1fr); gap: 3px;
     }
     .key {
-      height: 12px;
-      background: linear-gradient(145deg, #4A4540, #3A3530);
-      border-radius: 2px; box-shadow: 0 2px 0 #1A1510;
+      height: 13px;
+      background: linear-gradient(160deg, #E8E4DC, #D0CAC0);
+      border-radius: 2px;
+      box-shadow:
+        0 2px 0 #B0AAA0,
+        0 3px 0 rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.6);
     }
     .key.w2 { grid-column: span 2; }
     .key.w3 { grid-column: span 3; }
@@ -294,7 +381,11 @@
     }
 
     /* ── CONTENT ───────────────────────────────── */
-    #content { position: relative; z-index: 10; background: var(--peach); }
+    #content {
+      position: relative; z-index: 10; background: var(--peach);
+      margin-top: -35vh; /* overlap with last part of hero fade */
+      padding-top: 0;
+    }
 
     .content-section { max-width: 860px; margin: 0 auto; padding: 5rem 2.5rem; }
 
@@ -516,6 +607,8 @@
   <div id="hero-sticky">
     <div id="computer-wrap">
       <div class="monitor" id="monitor-el">
+        <div class="monitor-apple">✦ MACINTOSH ✦</div>
+        <div class="monitor-power"></div>
         <div class="screen-bezel">
           <div class="screen" id="crt-screen">
             <div class="scan-line"></div>
