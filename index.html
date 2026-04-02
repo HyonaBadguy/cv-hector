@@ -89,37 +89,31 @@
       font-size: 1.1rem; display: flex;
       align-items: center; justify-content: center;
       text-decoration: none;
-      transition: background 0.15s, transform 0.12s, box-shadow 0.12s;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
       flex-shrink: 0;
-      box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
     }
     .nav-btn:hover {
       background: var(--darker);
-      transform: translateY(-2px) translateX(-1px);
-      box-shadow: 5px 5px 0 rgba(0,0,0,0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.35);
     }
-    .nav-btn:active {
-      transform: translateY(1px) translateX(1px);
-      box-shadow: 1px 1px 0 rgba(0,0,0,0.4);
-    }
+    .nav-btn:active { transform: translateY(0); }
     .nav-btn svg { width: 20px; height: 20px; fill: var(--peach); }
 
     /* ── MENU OVERLAY ──────────────────────────── */
     #menu-overlay {
       position: fixed; inset: 0;
       background: var(--boot-bg);
-      z-index: 600;
+      z-index: 400;
+      display: flex; flex-direction: column;
+      justify-content: flex-start;
+      padding: 1rem 4rem 4rem 4rem;
       opacity: 0; pointer-events: none;
       transition: opacity 0.3s ease;
     }
     #menu-overlay.open { opacity: 1; pointer-events: all; }
 
-    .menu-links {
-      position: absolute;
-      top: 90px;
-      left: 4rem;
-      display: flex; flex-direction: column; gap: 0.4rem;
-    }
+    .menu-links { display: flex; flex-direction: column; gap: 0.5rem; }
     .menu-links a {
       display: block;
       font-family: var(--pixel);
@@ -142,93 +136,120 @@
       perspective-origin: center center;
     }
 
-    /* ── COMPUTER WRAP ─────────────────────────── */
+    /* ── MAC CLASSIC — vertical all-in-one ──────── */
     #computer-wrap {
-      position: relative; width: 560px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       will-change: transform, opacity;
       transform-origin: center center;
       transform-style: preserve-3d;
     }
 
-    .monitor {
-      /* Mac 128K / Classic — tall, boxy, one-piece unit */
-      background: linear-gradient(170deg, #F2EFE6 0%, #E4E0D4 30%, #D0CBB8 100%);
-      border-radius: 6px 6px 4px 4px;
-      /* thick bezels: top 24px, sides 22px, bottom 70px (chin for floppy+logo) */
-      padding: 24px 22px 70px 22px;
+    /* Main tall boxy body — like Mac 128K/SE */
+    .mac-body {
+      width: 300px;
+      background: linear-gradient(165deg, #ECEAE0 0%, #DEDAD0 45%, #C8C2B4 100%);
+      border-radius: 14px 14px 6px 6px;
+      padding: 20px 20px 22px 20px;
       position: relative;
-      /* 3D depth stack: right face + bottom face + drop shadow */
       box-shadow:
-        10px 0px 0 0 #C4BFB0,
-        20px 4px 0 0 #B0AA9C,
-        2px 10px 0 0 #CCCABF,
-        22px 12px 50px rgba(15,12,6,0.55),
-        inset 0 3px 5px rgba(255,255,255,0.7),
-        inset 0 -2px 5px rgba(0,0,0,0.1);
+        8px 0px 0 0px #C0BAB0,
+        16px 4px 0 0px #B0AAA0,
+        22px 8px 0 0px #A09890,
+        4px 8px 0 0px #CAC4BC,
+        22px 35px 80px rgba(20,15,5,0.55),
+        28px 40px 100px rgba(20,15,5,0.3),
+        inset 0 2px 5px rgba(255,255,255,0.75),
+        inset -2px 0 5px rgba(0,0,0,0.05);
     }
 
-    /* Screen ridge / inset groove around bezel (Mac Classic detail) */
-    .monitor::before {
+    /* Inset ridge around screen */
+    .mac-body::before {
       content: '';
       position: absolute;
-      top: 22px; left: 20px; right: 20px; bottom: 40px;
+      top: 14px; left: 14px; right: 14px;
+      height: 218px;
       border-radius: 5px;
-      border: 2px solid rgba(0,0,0,0.1);
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.15),
-                  0 1px 0 rgba(255,255,255,0.5);
+      border: 2px solid rgba(0,0,0,0.13);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.2),
+                  0 1px 0 rgba(255,255,255,0.55);
       pointer-events: none; z-index: 3;
     }
 
-    /* Floppy disk slot — Mac Classic chin, centrado */
-    .monitor::after {
-      content: '';
-      position: absolute;
-      bottom: 28px;
-      left: 50%; transform: translateX(10px);
-      width: 50px; height: 6px;
-      background: linear-gradient(to bottom, #7A7870, #8A8880);
-      border-radius: 1px;
-      box-shadow: inset 0 2px 3px rgba(0,0,0,0.55),
-                  0 0 0 1px rgba(0,0,0,0.25),
-                  0 1px 0 rgba(255,255,255,0.15);
-    }
-
-    /* Power LED — Mac Classic chin */
-    .monitor-power {
-      position: absolute;
-      bottom: 26px;
-      left: 50%; transform: translateX(-20px);
-      width: 8px; height: 8px;
-      background: radial-gradient(circle at 38% 35%, #A0FFA0 0%, #00CC44 60%, #007A2A 100%);
-      border-radius: 50%;
-      box-shadow: 0 0 8px rgba(0,200,60,0.85);
-      animation: powerPulse 3s ease-in-out infinite;
-    }
-    @keyframes powerPulse {
-      0%,100% { opacity: 1; box-shadow: 0 0 8px rgba(0,200,60,0.85); }
-      50%      { opacity: 0.6; box-shadow: 0 0 3px rgba(0,200,60,0.4); }
-    }
-
-    /* Apple logo — chin area */
-    .monitor-apple {
-      position: absolute;
-      bottom: 22px;
-      left: 50%; transform: translateX(-50%);
-      font-size: 0.45rem; opacity: 0.25; letter-spacing: 0.1em;
-      font-family: var(--mono); color: #2A2520;
-      pointer-events: none; white-space: nowrap;
-    }
-
     .screen-bezel {
-      background: #0C0800;
+      background: #0E0B04;
       border-radius: 4px;
-      padding: 7px;
+      padding: 6px;
       position: relative; z-index: 2;
+      margin-bottom: 16px;
       box-shadow:
         inset 0 0 40px rgba(0,0,0,1),
-        inset 0 2px 6px rgba(0,0,0,0.8),
-        0 0 0 1px rgba(0,0,0,0.3);
+        inset 0 3px 8px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(0,0,0,0.35);
     }
+
+    /* Bottom panel: Apple logo + floppy + LED */
+    .mac-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2px 4px 0;
+    }
+
+    .mac-apple {
+      font-size: 0.9rem; opacity: 0.35; line-height: 1;
+      filter: grayscale(1) brightness(0.5);
+    }
+
+    .mac-floppy {
+      flex: 1; max-width: 90px;
+      height: 7px;
+      background: linear-gradient(to bottom, #808078, #989088);
+      border-radius: 3px;
+      margin: 0 10px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.65),
+                  0 0 0 1px rgba(0,0,0,0.2);
+    }
+
+    .mac-led {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+      background: radial-gradient(circle at 38% 35%, #A0FFA0, #00CC44 60%, #006622);
+      box-shadow: 0 0 8px rgba(0,200,60,0.9);
+      animation: ledPulse 3s ease-in-out infinite;
+    }
+    @keyframes ledPulse {
+      0%,100% { opacity:1; box-shadow:0 0 8px rgba(0,200,60,0.9); }
+      50%      { opacity:0.6; box-shadow:0 0 3px rgba(0,200,60,0.4); }
+    }
+
+    /* Separate keyboard below the unit */
+    .mac-keyboard {
+      width: 360px;
+      background: linear-gradient(160deg, #E0DAD0, #CCCABF);
+      border-radius: 6px 6px 10px 10px;
+      padding: 10px 12px 14px;
+      margin-top: 14px;
+      box-shadow:
+        6px 3px 0 #B8B4A8,
+        12px 6px 0 #A8A498,
+        inset 0 2px 3px rgba(255,255,255,0.4),
+        0 4px 14px rgba(0,0,0,0.2);
+      display: grid;
+      grid-template-columns: repeat(14,1fr);
+      gap: 3px;
+    }
+    .key {
+      height: 13px;
+      background: linear-gradient(160deg, #E8E4DC, #D0CAC0);
+      border-radius: 2px;
+      box-shadow: 0 2px 0 #B0AAA0, 0 3px 0 rgba(0,0,0,0.15),
+                  inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .key.w2 { grid-column: span 2; }
+    .key.w3 { grid-column: span 3; }
+    .key.sp { grid-column: span 6; }
     .screen {
       background: var(--crt-bg); border-radius: 10px;
       min-height: 300px; position: relative;
@@ -274,10 +295,10 @@
     .crt-photo {
       width: 100%; aspect-ratio: 0.85;
       object-fit: cover; object-position: center top;
-      filter: sepia(1) contrast(1.2) brightness(0.75) hue-rotate(-10deg) saturate(3);
-      border-radius: 3px;
+      filter: sepia(1) contrast(1.5) brightness(0.8) hue-rotate(-15deg) saturate(4);
+      mix-blend-mode: screen;
+      border-radius: 4px;
       display: block;
-      border: 1px solid rgba(255,160,0,0.2);
     }
     .crt-photo-fallback {
       width: 100%; aspect-ratio: 0.85;
@@ -327,58 +348,6 @@
 
     @keyframes crtAppear { to { opacity: 1; } }
     @keyframes blink { 50% { opacity: 0; } }
-
-    .monitor-stand {
-      width: 55%; margin: 0 auto;
-      height: 10px;
-      background: linear-gradient(to bottom, #C8C2B6, #B0AA9E);
-      border-radius: 0 0 3px 3px;
-      box-shadow: 4px 3px 0 #A8A295, 0 2px 4px rgba(0,0,0,0.2);
-    }
-    .monitor-base {
-      width: 72%; margin: 0 auto;
-      height: 18px;
-      background: linear-gradient(145deg, #D0CAC0, #B8B2A6);
-      border-radius: 0 0 8px 8px;
-      box-shadow:
-        5px 3px 0 #A8A295,
-        10px 5px 0 #989285,
-        0 4px 10px rgba(0,0,0,0.25);
-      position: relative;
-    }
-    /* Base front strip */
-    .monitor-base::before {
-      content: '';
-      position: absolute;
-      bottom: 4px; left: 15%; right: 15%;
-      height: 3px;
-      background: rgba(0,0,0,0.08);
-      border-radius: 2px;
-    }
-    .keyboard {
-      background: linear-gradient(160deg, #E0DAD0, #CCCABF);
-      border-radius: 6px 6px 10px 10px;
-      padding: 10px 12px 14px;
-      margin-top: 10px;
-      box-shadow:
-        5px 3px 0 #B8B4A8,
-        10px 6px 0 #A8A498,
-        inset 0 2px 3px rgba(255,255,255,0.4),
-        0 4px 12px rgba(0,0,0,0.2);
-      display: grid; grid-template-columns: repeat(14,1fr); gap: 3px;
-    }
-    .key {
-      height: 13px;
-      background: linear-gradient(160deg, #E8E4DC, #D0CAC0);
-      border-radius: 2px;
-      box-shadow:
-        0 2px 0 #B0AAA0,
-        0 3px 0 rgba(0,0,0,0.2),
-        inset 0 1px 0 rgba(255,255,255,0.6);
-    }
-    .key.w2 { grid-column: span 2; }
-    .key.w3 { grid-column: span 3; }
-    .key.sp { grid-column: span 6; }
 
     #scroll-hint {
       position: absolute; bottom: 2.5rem; left: 50%;
@@ -607,6 +576,8 @@
 <!-- MENU OVERLAY -->
 <div id="menu-overlay">
   <nav class="menu-links">
+    <!-- invisible spacer = exact height of nav row so links start below buttons -->
+    <div style="height: 62px; flex-shrink:0; pointer-events:none;"></div>
     <a href="#home"       onclick="closeMenu()">Home</a>
     <a href="#about"      onclick="closeMenu()">About</a>
     <a href="#experience" onclick="closeMenu()">Experience</a>
@@ -619,14 +590,13 @@
 <div id="hero-container">
   <div id="hero-sticky">
     <div id="computer-wrap">
-      <div class="monitor" id="monitor-el">
-        <div class="monitor-apple">✦ MACINTOSH ✦</div>
-        <div class="monitor-power"></div>
+
+      <!-- MAC CLASSIC BODY (all-in-one vertical unit) -->
+      <div class="mac-body">
         <div class="screen-bezel">
           <div class="screen" id="crt-screen">
             <div class="scan-line"></div>
             <div class="crt-right">
-              <!-- If you add photo.jpg to the folder, it shows with amber CRT filter -->
               <img class="crt-photo" src="photo.jpg" alt=""
                 onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
               <div class="crt-photo-fallback" style="display:none"></div>
@@ -649,10 +619,16 @@
             </div>
           </div>
         </div>
+        <!-- Bottom details bar -->
+        <div class="mac-bottom">
+          <span class="mac-apple">🍎</span>
+          <div class="mac-floppy"></div>
+          <div class="mac-led"></div>
+        </div>
       </div>
-      <div class="monitor-stand"></div>
-      <div class="monitor-base"></div>
-      <div class="keyboard">
+
+      <!-- Separate keyboard below -->
+      <div class="mac-keyboard">
         <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
         <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
         <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
@@ -668,6 +644,7 @@
         <div class="key sp"></div><div class="key"></div><div class="key"></div>
         <div class="key"></div><div class="key"></div><div class="key"></div>
       </div>
+
     </div>
     <div id="scroll-hint">▼ &nbsp; scroll &nbsp; ▼</div>
   </div>
@@ -941,9 +918,12 @@ function lerpColor(c1, c2, t) {
 
 function getStartScale() {
   const vw = window.innerWidth, vh = window.innerHeight;
-  const cw = computerWrap.offsetWidth || 560;
-  const ch = computerWrap.offsetHeight || 480;
-  return Math.min(vw / (cw * 0.82), vh / (ch * 0.62)) * 1.05;
+  const cw = computerWrap.offsetWidth  || 300;
+  const ch = computerWrap.offsetHeight || 500;
+  // Scale so the screen (top ~55% of body height) fills viewport
+  const scaleX = vw / cw;
+  const scaleY = vh / (ch * 0.55);
+  return Math.min(scaleX, scaleY) * 0.96;
 }
 
 // Mouse parallax — moves computer gently
