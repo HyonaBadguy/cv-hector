@@ -563,8 +563,6 @@ setTimeout(()=>{bootScreen.classList.add('hidden');},2500);
   const platinum = new THREE.MeshStandardMaterial({ color: 0xDAD8D0, roughness: 0.85, metalness: 0.05 });
   const platinumDark = new THREE.MeshStandardMaterial({ color: 0xC8C6BE, roughness: 0.88 });
   const darkBezel = new THREE.MeshStandardMaterial({ color: 0x111008, roughness: 0.6 });
-  const screenMat = new THREE.MeshStandardMaterial({ color: 0x0A0800, emissive: new THREE.Color(0xFFB300), emissiveIntensity: 0.38, roughness: 0.7 });
-
   // ── CANVAS TEXTURE — draws CRT text directly on the 3D screen ──
   const scrCanvas = document.createElement('canvas');
   scrCanvas.width = 512; scrCanvas.height = 384;
@@ -572,6 +570,14 @@ setTimeout(()=>{bootScreen.classList.add('hidden');},2500);
   const scrTex = new THREE.CanvasTexture(scrCanvas);
 
   let cursorOn = true;
+  let photoImg = null;
+
+  // Pre-load photo separately so we control timing
+  const _img = new Image();
+  _img.crossOrigin = 'anonymous';
+  _img.src = 'photo.jpg';
+  _img.onload  = () => { photoImg = _img; drawCRTContent(); };
+  _img.onerror = () => { photoImg = null; drawCRTContent(); };
 
   function drawCRTContent() {
     const W = scrCanvas.width, H = scrCanvas.height;
@@ -581,68 +587,83 @@ setTimeout(()=>{bootScreen.classList.add('hidden');},2500);
     scrCtx.fillStyle = '#0A0800';
     scrCtx.fillRect(0, 0, W, H);
 
+    // Photo — right half of screen, fills vertically
+    if (photoImg) {
+      scrCtx.save();
+      // Clip to right portion of screen
+      scrCtx.beginPath();
+      scrCtx.rect(W * 0.5, 0, W * 0.5, H);
+      scrCtx.clip();
+      // Draw with amber/sepia CRT filter via compositing
+      scrCtx.filter = 'sepia(1) hue-rotate(-20deg) saturate(5) contrast(1.3) brightness(0.75)';
+      // Portrait: center horizontally in right half, fill height
+      const aspect = photoImg.naturalWidth / photoImg.naturalHeight;
+      const drawH = H;
+      const drawW = drawH * aspect;
+      const drawX = W * 0.5 + (W * 0.5 - drawW) / 2;
+      scrCtx.drawImage(photoImg, drawX, 0, drawW, drawH);
+      scrCtx.restore();
+
+      // Gradient fade: photo fades into dark on the left edge
+      const fadeGrd = scrCtx.createLinearGradient(W * 0.5, 0, W * 0.65, 0);
+      fadeGrd.addColorStop(0, '#0A0800');
+      fadeGrd.addColorStop(1, 'rgba(10,8,0,0)');
+      scrCtx.fillStyle = fadeGrd;
+      scrCtx.fillRect(W * 0.5, 0, W * 0.15, H);
+    }
+
     // Phosphor glow
-    const grd = scrCtx.createRadialGradient(W*0.4, H*0.48, 0, W*0.4, H*0.48, W*0.7);
-    grd.addColorStop(0, 'rgba(255,155,0,0.12)');
+    const grd = scrCtx.createRadialGradient(W*0.35, H*0.45, 0, W*0.35, H*0.45, W*0.7);
+    grd.addColorStop(0, 'rgba(255,155,0,0.1)');
     grd.addColorStop(1, 'rgba(0,0,0,0)');
     scrCtx.fillStyle = grd;
     scrCtx.fillRect(0, 0, W, H);
 
-    // Scanlines
+    // Scanlines (on top of everything)
     for (let y = 0; y < H; y += 4) {
-      scrCtx.fillStyle = 'rgba(0,0,0,0.22)';
+      scrCtx.fillStyle = 'rgba(0,0,0,0.2)';
       scrCtx.fillRect(0, y + 2, W, 2);
-    }
-
-    // Photo — try to draw from the loaded img element
-    const photoEl = document.querySelector('.crt-photo');
-    if (photoEl && photoEl.complete && photoEl.naturalHeight > 0) {
-      scrCtx.save();
-      scrCtx.globalAlpha = 0.85;
-      scrCtx.filter = 'sepia(1) hue-rotate(-20deg) saturate(6) contrast(1.4) brightness(0.72)';
-      scrCtx.drawImage(photoEl, W * 0.55, 10, W * 0.42, H * 0.72);
-      scrCtx.restore();
     }
 
     // "Hi there,"
     scrCtx.font = '13px "Press Start 2P", monospace';
     scrCtx.fillStyle = amber;
-    scrCtx.fillText('Hi there,', 22, 52);
+    scrCtx.fillText('Hi there,', 22, 58);
 
     // Name box
     scrCtx.fillStyle = 'rgba(255,140,0,0.28)';
-    scrCtx.fillRect(20, 64, 285, 34);
+    scrCtx.fillRect(20, 68, 270, 32);
     scrCtx.strokeStyle = '#FF8C00';
     scrCtx.lineWidth = 1;
-    scrCtx.strokeRect(20, 64, 285, 34);
-    scrCtx.font = '11px "Press Start 2P", monospace';
+    scrCtx.strokeRect(20, 68, 270, 32);
+    scrCtx.font = '10px "Press Start 2P", monospace';
     scrCtx.fillStyle = amber;
-    scrCtx.fillText("I'm Hector Maldonado", 26, 86);
+    scrCtx.fillText("I'm Hector Maldonado", 26, 88);
 
     // Roles
-    scrCtx.font = '9px "Press Start 2P", monospace';
+    scrCtx.font = '8px "Press Start 2P", monospace';
     ['■ Cloud & Data Platform Eng.', '■ DevOps · K8s · GitOps', '■ AWS · Azure · GreenLake'].forEach((r, i) => {
       scrCtx.fillStyle = amber;
-      scrCtx.fillText(r, 22, 132 + i * 24);
+      scrCtx.fillText(r, 22, 130 + i * 22);
     });
 
     // Footer
-    scrCtx.font = '8px "Press Start 2P", monospace';
+    scrCtx.font = '7px "Press Start 2P", monospace';
     scrCtx.fillStyle = amberDim;
-    scrCtx.fillText('Welcome to JB-Linux 1.0 LTS', 22, 252);
-    scrCtx.fillText('>> Scroll to get started',    22, 272);
-    scrCtx.fillText('USER: ~$',                    22, 292);
+    scrCtx.fillText('Welcome to JB-Linux 1.0 LTS', 22, 248);
+    scrCtx.fillText('>> Scroll to get started',    22, 266);
+    scrCtx.fillText('USER: ~$',                    22, 284);
 
     // Blinking cursor
     if (cursorOn) {
       scrCtx.fillStyle = amber;
-      scrCtx.fillRect(104, 280, 8, 13);
+      scrCtx.fillRect(96, 274, 7, 12);
     }
 
     scrTex.needsUpdate = true;
   }
 
-  // Draw once fonts are ready, redraw every 600ms for cursor blink
+  // Draw once fonts are ready, then redraw every 600ms for cursor blink
   document.fonts.ready.then(() => {
     drawCRTContent();
     setInterval(() => { cursorOn = !cursorOn; drawCRTContent(); }, 600);
