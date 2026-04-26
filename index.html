@@ -135,8 +135,9 @@
     .exp-role { display: inline-block; font-family: var(--pixel); font-size: clamp(0.48rem,1.3vw,0.72rem); color: var(--peach); background: var(--dark); padding: 0.35rem 0.8rem; margin-bottom: 0.6rem; letter-spacing: 0.05em; }
     .edu-degree { display: inline-block; font-family: var(--pixel); font-size: clamp(0.44rem,1.1vw,0.65rem); color: var(--peach); background: var(--dark); padding: 0.32rem 0.7rem; margin-bottom: 0.6rem; letter-spacing: 0.05em; }
     .cert-name { display: inline-block; font-family: var(--pixel); font-size: clamp(0.44rem,1.1vw,0.65rem); color: var(--peach); background: var(--dark); padding: 0.32rem 0.7rem; margin-bottom: 0.6rem; letter-spacing: 0.05em; }
-    .exp-meta { font-family: var(--pixel); font-size: 0.46rem; color: var(--dark); opacity: 0.58; margin-bottom: 1.2rem; letter-spacing: 0.06em; }
-    .edu-meta { font-family: var(--pixel); font-size: 0.44rem; color: var(--dark); opacity: 0.58; margin-bottom: 0.8rem; letter-spacing: 0.06em; }
+    .exp-meta { font-family: var(--pixel); font-size: 0.46rem; color: var(--dark); opacity: 0.58; margin-bottom: 1.2rem; letter-spacing: 0.06em; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .edu-meta { font-family: var(--pixel); font-size: 0.44rem; color: var(--dark); opacity: 0.58; margin-bottom: 0.8rem; letter-spacing: 0.06em; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .flag { display: inline-block; image-rendering: pixelated; border: 1px solid rgba(58,53,48,0.2); flex-shrink: 0; }
     .edu-desc { font-family: var(--pixel); font-size: clamp(0.38rem,0.85vw,0.48rem); color: var(--dark); opacity: 0.7; line-height: 2.1; font-style: italic; }
     .cert-badge { display: flex; align-items: center; gap: 1rem; margin-top: 0.8rem; }
     .cert-icon { font-size: 1.5rem; }
@@ -309,20 +310,27 @@
       <div class="section-divider">- - - - - - - - - -</div>
 
       <div class="exp-block">
-        <div class="exp-role">Cloud Consultant Engineer</div>
-        <div class="exp-meta">TechConsulting &nbsp;·&nbsp; Nov 2025 – Present &nbsp;·&nbsp; Atlanta, GA</div>
-        <div class="tags"><span class="tag">AWS EKS</span><span class="tag">ArgoCD</span><span class="tag">Terraform</span><span class="tag">Kubernetes</span><span class="tag">OPA</span><span class="tag">Canary</span><span class="tag">Prometheus</span><span class="tag">Datadog</span><span class="tag">ELK</span><span class="tag">Trivy</span><span class="tag">GitOps</span></div>
+        <div class="exp-role">Platform Engineer</div>
+        <div class="exp-meta">
+          <svg class="flag" width="24" height="16" viewBox="0 0 24 16"><rect width="24" height="16" fill="#B22234"/><rect y="2" width="24" height="2" fill="#fff"/><rect y="6" width="24" height="2" fill="#fff"/><rect y="10" width="24" height="2" fill="#fff"/><rect y="14" width="24" height="2" fill="#fff"/><rect width="10" height="9" fill="#3C3B6E"/><circle cx="2" cy="2" r="0.8" fill="#fff"/><circle cx="5" cy="2" r="0.8" fill="#fff"/><circle cx="8" cy="2" r="0.8" fill="#fff"/><circle cx="2" cy="5" r="0.8" fill="#fff"/><circle cx="5" cy="5" r="0.8" fill="#fff"/><circle cx="8" cy="5" r="0.8" fill="#fff"/><circle cx="2" cy="8" r="0.8" fill="#fff"/><circle cx="5" cy="8" r="0.8" fill="#fff"/><circle cx="8" cy="8" r="0.8" fill="#fff"/></svg>
+          TechConsulting &nbsp;·&nbsp; Nov 2025 – Present &nbsp;·&nbsp; Atlanta, GA &nbsp;·&nbsp; <span style="opacity:0.7">Confidential Retail Client (NDA)</span>
+        </div>
+        <div class="tags"><span class="tag">Azure AKS</span><span class="tag">ArgoCD</span><span class="tag">Terraform</span><span class="tag">Kubernetes</span><span class="tag">Helm</span><span class="tag">Istio</span><span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">GitOps</span><span class="tag">NGINX</span><span class="tag">Cosmos DB</span></div>
         <ul class="exp-bullets">
-          <li>Designed end-to-end cloud platform architecture establishing unified GitOps standard using GitHub Actions and ArgoCD ApplicationSets across multi-region EKS deployments.</li>
-          <li>Led Terraform IaC provisioning and Kubernetes cluster configuration; implemented OPA policy-as-code for automated compliance covering resource limits, registry controls, and IRSA enforcement.</li>
-          <li>Defined canary deployment strategy (10%→50%→100%) with automated Prometheus-based validation and auto-rollback under 30 seconds.</li>
-          <li>Integrated security scanning (Trivy + SonarQube) into CI pipeline and deployed full observability stack (Prometheus, Datadog, ELK) for APM and compliance logging.</li>
+          <li>Designed end-to-end cloud platform architecture for a confidential e-commerce client, establishing a unified GitOps standard using GitHub Actions and ArgoCD with automated self-healing and drift detection across AKS deployments.</li>
+          <li>Led Terraform IaC provisioning and Kubernetes cluster configuration; implemented zero-trust microsegmentation with 16 Network Policies and RBAC role definitions covering developer, auditor, and CI/CD pipeline access profiles.</li>
+          <li>Defined HPA auto-scaling strategy with Prometheus-based CPU utilization targets, reducing manual intervention during traffic spikes and maintaining zero-downtime rolling deployments.</li>
+          <li>Integrated observability stack (Prometheus + Grafana) with real-time resource tuning, reducing memory over-provisioning by 50% across frontend services.</li>
+          <li>Migrated database layer to Azure Cosmos DB and provisioned Azure Service Bus for async messaging; deployed Helm charts for standardized multi-environment configuration (dev/staging/prod).</li>
         </ul>
       </div>
 
       <div class="exp-block">
         <div class="exp-role">Cloud Solutions Engineer</div>
-        <div class="exp-meta">Hewlett Packard Enterprise &nbsp;·&nbsp; Jan 2022 – Jan 2024 &nbsp;·&nbsp; Canada</div>
+        <div class="exp-meta">
+          <svg class="flag" width="24" height="16" viewBox="0 0 24 16"><rect width="24" height="16" fill="#FF0000"/><rect x="6" width="12" height="16" fill="#fff"/><polygon points="12,3 13,6 16,6 13.5,8 14.5,11 12,9 9.5,11 10.5,8 8,6 11,6" fill="#FF0000"/></svg>
+          Hewlett Packard Enterprise &nbsp;·&nbsp; Jan 2022 – Jan 2024 &nbsp;·&nbsp; Alberta-Quebec, Canada &nbsp;·&nbsp; <span style="opacity:0.7">Official title: Support Engineer</span>
+        </div>
         <div class="tags"><span class="tag">HPE GreenLake</span><span class="tag">Apache Airflow</span><span class="tag">Apache Spark</span><span class="tag">Terraform</span><span class="tag">Kubernetes</span><span class="tag">GitHub Actions</span><span class="tag">Docker</span></div>
         <ul class="exp-bullets">
           <li>Contributed to design, provisioning, and delivery of ~30 GreenLake test drive environments — guided sandbox experiences for enterprise clients to validate HPE cloud tools.</li>
@@ -333,7 +341,10 @@
 
       <div class="exp-block">
         <div class="exp-role">Technical Support Specialist</div>
-        <div class="exp-meta">Hewlett Packard Inc. &nbsp;·&nbsp; Mar 2015 – Aug 2018 &nbsp;·&nbsp; Guadalajara, México</div>
+        <div class="exp-meta">
+          <svg class="flag" width="24" height="16" viewBox="0 0 3 2"><rect width="1" height="2" fill="#006847"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ce1126"/></svg>
+          Hewlett Packard Inc. &nbsp;·&nbsp; Mar 2015 – Aug 2018 &nbsp;·&nbsp; Guadalajara, México
+        </div>
         <div class="tags"><span class="tag">MySQL</span><span class="tag">SQL</span><span class="tag">ETL</span><span class="tag">Data Analysis</span></div>
         <ul class="exp-bullets">
           <li>Extracted and processed data from MySQL databases using SQL to produce key operational reports for sales and HR teams.</li>
@@ -355,13 +366,19 @@
 
       <div class="edu-block">
         <div class="edu-degree">Master's — Quality System Engineering</div>
-        <div class="edu-meta">Concordia University &nbsp;·&nbsp; Montreal, Canada &nbsp;·&nbsp; 2018 – 2021</div>
+        <div class="edu-meta">
+          <svg class="flag" width="24" height="16" viewBox="0 0 24 16"><rect width="24" height="16" fill="#FF0000"/><rect x="6" width="12" height="16" fill="#fff"/><polygon points="12,3 13,6 16,6 13.5,8 14.5,11 12,9 9.5,11 10.5,8 8,6 11,6" fill="#FF0000"/></svg>
+          Concordia University &nbsp;·&nbsp; Montreal, Canada &nbsp;·&nbsp; 2018 – 2021
+        </div>
         <p class="edu-desc">Machine learning, data analytics, cloud computing, IoT, AI, Agile, Industry 4.0.<br>Projects: Refund System Optimization · Autonomous Bus · Flying House Project (Team Lead).</p>
       </div>
 
       <div class="edu-block">
         <div class="edu-degree">Graduate — Computer Engineering</div>
-        <div class="edu-meta">Universidad de Guadalajara &nbsp;·&nbsp; México &nbsp;·&nbsp; 2001 – 2005</div>
+        <div class="edu-meta">
+          <svg class="flag" width="24" height="16" viewBox="0 0 3 2"><rect width="1" height="2" fill="#006847"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ce1126"/></svg>
+          Universidad de Guadalajara &nbsp;·&nbsp; México &nbsp;·&nbsp; 2001 – 2005
+        </div>
         <p class="edu-desc">Operating systems, databases (MySQL, PostgreSQL), network configuration, server administration, security, software development.</p>
       </div>
 
